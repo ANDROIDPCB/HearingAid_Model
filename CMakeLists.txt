@@ -26,6 +26,13 @@ find_package(OpenCV REQUIRED)
 # 输出OpenCV信息
 message(STATUS "include path: ${OpenCV_INCLUDE_DIRS}")
 
+# 查找依赖库 读音频和进行fft的库
+find_library(KISSFFT_LIB NAMES kissfft-float)  # 查找kissfft库
+# 验证库是否找到
+if(NOT KISSFFT_LIB)
+    message(FATAL_ERROR "kissfft library not found")
+endif()
+
 
 # 用来搜索头文件的目录
 include_directories(
@@ -33,6 +40,8 @@ include_directories(
     ${RKNN_API_INCLUDE_PATH}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${RGA_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include  # 你的头文件目录
+    ${KISSFFT_INCLUDE_DIRS}              # 如果kissfft需要特殊包含路径
 )
 
 
@@ -41,7 +50,10 @@ include_directories(
 add_library(deepfir_process SHARED src/process/preprocess_deepfir.cpp)
 # 链接库
 target_link_libraries(deepfir_process
-
+    sndfile      # libsndfile的CMake目标
+    ${OpenCV_LIBS}
+    ${KISSFFT_LIB}        # kissfft库
+    m                     # 数学库
 )
 
 # 构建自定义封装API库
@@ -57,6 +69,7 @@ add_library(deepfir_lib SHARED src/task/deepfir.cpp)
 # 链接库
 target_link_libraries(deepfir_lib
     rknn_engine
+    deepfir_process
 )
 
 

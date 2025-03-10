@@ -1,6 +1,6 @@
 
 #include "deepfir.h"
-#include <preprocess_deepfir.h>
+#include "process/preprocess_deepfir.h"
 
 
 
@@ -88,7 +88,7 @@ nn_error_e DeepFIR::Run(const char *audio_file, std::vector<Detection> &objects)
 nn_error_e DeepFIR::Preprocess(const char *audio_file)
 {
     // 将预处理后的结果放入input_tensor_中
-    compute_stft(audio_file,256,16,256);
+    compute_stft(audio_file);
     return NN_SUCCESS;
 }
 

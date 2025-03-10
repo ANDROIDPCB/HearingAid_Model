@@ -1,12 +1,12 @@
 #include "preprocess_deepfir.h"
+#include <opencv2/opencv.hpp>
 
-STFTResult compute_stft(const char* filename, 
-                       int n_fft = 256,
-                       int hop_length = 16,
-                       int win_length = 256) 
+STFTResult compute_stft(const char* filename) 
 {
     // 初始化返回结构
     STFTResult result;
+
+    int n_fft = 256,hop_length = 16,win_length = 256;
 
     // 1. 读取音频文件
     SF_INFO sfinfo = {0};
@@ -83,9 +83,50 @@ STFTResult compute_stft(const char* filename,
             result.phase[i][j] = std::atan2(out[j].i, out[j].r);
         }
     }
-
+    // 存储成图片
+    save_spectrogram(result.magnitude, "spectrogram.jpg");
     // 10. 清理资源
     kiss_fft_free(cfg);
 
     return result;
+}
+
+
+// 数据保存成图片
+void save_spectrogram(const std::vector<std::vector<float>>& magnitude,
+    const std::string& output_path,
+    int img_width,
+    int img_height,
+    bool use_log_scale) 
+{
+    if (magnitude.empty() || magnitude[0].empty()) {
+        throw std::invalid_argument("Empty magnitude data");
+    }
+
+    // 转换为OpenCV矩阵
+    const int frames = magnitude.size();
+    const int bins = magnitude[0].size();
+    cv::Mat spectrogram(bins, frames, CV_32FC1);
+
+    // 填充数据并进行对数变换
+    for (int t = 0; t < frames; ++t) {
+            for (int f = 0; f < bins; ++f) {
+            float val = magnitude[t][f];
+            spectrogram.at<float>(bins - 1 - f, t) = 
+            use_log_scale ? log10f(val + 1e-6f) : val;
+        }
+    }
+
+    // 归一化到0-255
+    cv::normalize(spectrogram, spectrogram, 0, 255, cv::NORM_MINMAX);
+    spectrogram.convertTo(spectrogram, CV_8UC1);
+
+    // 调整尺寸并应用颜色映射
+    cv::resize(spectrogram, spectrogram, cv::Size(img_width, img_height));
+    cv::applyColorMap(spectrogram, spectrogram, cv::COLORMAP_MAGMA);
+
+    // 保存图像
+    if (!cv::imwrite(output_path, spectrogram)) {
+        throw std::runtime_error("Failed to save image: " + output_path);
+    }
 }

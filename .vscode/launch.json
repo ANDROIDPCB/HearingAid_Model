@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/build/deepfir", // 编译后的程序，需要结合CMakeLists.txt中的add_executable()函数
             "args": [
                 "./weights/DeepFIR_RKNN.rknn",
-                "./images/bus.jpg"
+                "./AudioDATA/p263_156_SNR-10_AirConditioner_2.wav"
             ],
             "stopAtEntry": false, 
             "cwd": "${workspaceFolder}", 
