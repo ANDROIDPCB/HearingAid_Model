@@ -46,7 +46,7 @@ target_link_libraries(nn_process
 )
 
 # 构建自定义封装API库
-add_library(rknn_engine SHARED src/engine/rknn_engine.cpp) 
+add_library(rknn_engine SHARED src/engine/rknn_engine.cpp)
 # 链接库
 target_link_libraries(rknn_engine
     ${RKNN_API_LIB_PATH}
@@ -58,6 +58,14 @@ target_link_libraries(yolov5_lib
     rknn_engine
     nn_process
 )
+
+# deepfir_lib
+add_library(deepfir_lib SHARED src/task/deepfir.cpp)
+# 链接库
+target_link_libraries(deepfir_lib
+    rknn_engine
+)
+
 
 # draw_lib
 add_library(draw_lib SHARED src/draw/cv_draw.cpp)
@@ -84,5 +92,9 @@ target_link_libraries(yolov5_video
         yolov5_lib
 )
 
-# 测试代码
-add_executable(Test src/Test.cpp)
+# 测试deepfir
+add_executable(deepfir src/DeepFIR_test.cpp)
+# 链接库
+target_link_libraries(deepfir
+        deepfir_lib
+)
