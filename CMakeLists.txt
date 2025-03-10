@@ -63,7 +63,6 @@ target_link_libraries(rknn_engine
     ${RKNN_API_LIB_PATH}
 )
 
-
 # deepfir_lib
 add_library(deepfir_lib SHARED src/task/deepfir.cpp)
 # 链接库

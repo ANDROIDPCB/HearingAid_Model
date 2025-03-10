@@ -1,7 +1,19 @@
 
 #include "deepfir.h"
-#include "process/preprocess_deepfir.h"
 
+// 四维张量容器，优化内存布局
+struct Tensor4D {
+    int batch;    // 批次维度（固定为1）
+    int height;   // 频率轴（129）
+    int width;    // 时间轴（16）
+    int channel;  // 通道维度（固定为1）
+    std::vector<float> data; // 数据存储（行优先顺序）
+
+    // 预分配内存
+    void reserve_space(int total_batches) {
+        data.reserve(batch * height * width * channel);
+    }
+};
 
 
 
@@ -78,27 +90,78 @@ nn_error_e DeepFIR::LoadModel(const char *model_path)
 }
 
 // 运行模型
-nn_error_e DeepFIR::Run(const char *audio_file, std::vector<Detection> &objects)
+nn_error_e DeepFIR::Run(const char *audio_file, STFTResult &result, std::vector<Detection> &objects)
 {
-    Preprocess(audio_file);
-    // Inference();               // 推理
+    Preprocess(audio_file,result);
+    Inference(result);               // 推理
     return NN_SUCCESS;
 }
 // 图像预处理
-nn_error_e DeepFIR::Preprocess(const char *audio_file)
+nn_error_e DeepFIR::Preprocess(const char *audio_file, STFTResult &result)
 {
     // 将预处理后的结果放入input_tensor_中
-    compute_stft(audio_file);
+    compute_stft(audio_file,result);
     return NN_SUCCESS;
 }
 
 // 推理
-nn_error_e DeepFIR::Inference()
+nn_error_e DeepFIR::Inference(STFTResult &stft_result)
 {
     std::vector<tensor_data_s> inputs;
-    // 将input_tensor_放入inputs中
-    inputs.push_back(input_tensor_);
-    // 运行模型
-    engine_->Run(inputs, output_tensors_, false);
-    return NN_SUCCESS;
+    // 步骤1：准备输入数据
+    prepare_inputs(stft_result, inputs);
+    // 步骤2：准备输出容器
+    output_tensors_.resize(inputs.size());
+    for (auto& out : output_tensors_) {
+        out.attr = inputs[0].attr; // 保持相同属性
+        out.data = new float[129 * 16];
+    }
+    for (size_t i = 0; i < inputs.size(); ++i) {
+        // 运行模型
+        engine_->Run(inputs, output_tensors_, false);
+    }
+    // 步骤4：处理输出结果
+    process_outputs(inputs, output_tensors_, stft_result);
+    // 存储成图片
+    save_spectrogram(stft_result.magnitude, "spectrogram_Final.jpg");
+    return NN_SUCCESS;   
+}
+
+
+
+void process_outputs(const std::vector<tensor_data_s>& inputs,
+    std::vector<tensor_data_s>& outputs,
+    STFTResult& result) 
+{
+    assert(inputs.size() == outputs.size() && "Input/Output size mismatch");
+
+    for (size_t i = 0; i < outputs.size(); ++i) {
+        const auto& input = inputs[i];
+        const auto& output = outputs[i];
+
+        // 验证输出维度
+        assert(output.attr.dims[0] == 1 && 
+        output.attr.dims[1] == 129 &&
+        output.attr.dims[2] == 16 &&
+        "Invalid output dimensions");
+
+        const int frame_start = i * 16;
+        const float* input_data = static_cast<float*>(input.data);
+        const float* output_data = static_cast<float*>(output.data);
+
+        // 矩阵相乘操作（逐元素乘积）
+        for (int t = 0; t < 16; ++t) {
+            for (int f = 0; f < 129; ++f) {
+                // 输入内存布局：f * 16 + t
+                // 输出内存布局：f * 16 + t
+                const float product = input_data[f * 16 + t] * 
+                                    output_data[f * 16 + t];
+                result.magnitude[frame_start + t][f] = product;
+            }
+        }
+
+        // 释放内存
+        delete[] input_data;
+        delete[] output_data;
+    }
 }

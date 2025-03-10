@@ -335,4 +335,7 @@ CMakeFiles/deepfir.dir/src/DeepFIR_test.cpp.o: \
  /home/orangepi/HearingAid_Model/src/engine/engine.h \
  /home/orangepi/HearingAid_Model/src/types/error.h \
  /home/orangepi/HearingAid_Model/src/types/datatype.h \
- /home/orangepi/HearingAid_Model/src/utils/logging.h
+ /home/orangepi/HearingAid_Model/src/utils/logging.h \
+ /home/orangepi/HearingAid_Model/src/process/preprocess_deepfir.h \
+ /usr/include/sndfile.h /usr/include/kissfft/kiss_fft.h \
+ /home/orangepi/HearingAid_Model/src/process/preprocess_deepfir.h

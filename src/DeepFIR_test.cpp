@@ -1,5 +1,6 @@
 
 #include "task/deepfir.h"
+#include "process/preprocess_deepfir.h"
 // #include "utils/logging.h"
 
 int main(int argc, char **argv)
@@ -14,7 +15,8 @@ int main(int argc, char **argv)
 
     // 运行模型
     std::vector<Detection> objects;
-    deepfir.Run(audio_file, objects);
+    STFTResult result;
+    deepfir.Run(audio_file, result, objects);
 
     return 0;
 }

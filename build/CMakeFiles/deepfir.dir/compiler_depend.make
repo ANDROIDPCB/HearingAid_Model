@@ -397,8 +397,14 @@ CMakeFiles/deepfir.dir/src/DeepFIR_test.cpp.o: ../src/DeepFIR_test.cpp \
   ../src/engine/engine.h \
   ../src/types/error.h \
   ../src/types/datatype.h \
-  ../src/utils/logging.h
+  ../src/utils/logging.h \
+  ../src/process/preprocess_deepfir.h \
+  /usr/include/sndfile.h \
+  /usr/include/kissfft/kiss_fft.h \
+  ../src/process/preprocess_deepfir.h
 
+
+/usr/include/sndfile.h:
 
 ../src/engine/engine.h:
 
@@ -629,6 +635,8 @@ CMakeFiles/deepfir.dir/src/DeepFIR_test.cpp.o: ../src/DeepFIR_test.cpp \
 /usr/include/opencv4/opencv2/flann/general.h:
 
 /usr/include/aarch64-linux-gnu/bits/endian.h:
+
+../src/process/preprocess_deepfir.h:
 
 /usr/include/opencv4/opencv2/core/cvstd.hpp:
 
@@ -947,6 +955,8 @@ CMakeFiles/deepfir.dir/src/DeepFIR_test.cpp.o: ../src/DeepFIR_test.cpp \
 /usr/include/aarch64-linux-gnu/c++/11/bits/c++locale.h:
 
 /usr/include/c++/11/cerrno:
+
+/usr/include/kissfft/kiss_fft.h:
 
 /usr/include/aarch64-linux-gnu/bits/locale.h:
 

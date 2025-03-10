@@ -1,10 +1,11 @@
 #include "preprocess_deepfir.h"
 #include <opencv2/opencv.hpp>
 
-STFTResult compute_stft(const char* filename) 
+
+STFTResult compute_stft(const char* filename, STFTResult &result) 
 {
     // 初始化返回结构
-    STFTResult result;
+    // STFTResult result;
 
     int n_fft = 256,hop_length = 16,win_length = 256;
 
@@ -130,3 +131,34 @@ void save_spectrogram(const std::vector<std::vector<float>>& magnitude,
         throw std::runtime_error("Failed to save image: " + output_path);
     }
 }
+
+
+
+
+// 分批次处理函数
+void prepare_inputs(const STFTResult& result, 
+    std::vector<tensor_data_s>& inputs) 
+{
+    const int total_frames = result.magnitude.size();
+    const int freq_bins = result.magnitude[0].size();
+    const int batch_size = 16;
+    inputs.clear();
+    const int total_batches = total_frames / batch_size;
+    for (int batch_idx = 0; batch_idx < total_batches; ++batch_idx) {
+        tensor_data_s input;
+        // 分配内存并填充数据（转置操作）
+        input.data = new float[129 * 16];
+        float* dst = static_cast<float*>(input.data);
+        const int frame_start = batch_idx * batch_size;
+        for (int f = 0; f < 129; ++f) {     // 频率维度
+            for (int t = 0; t < 16; ++t) {  // 时间维度
+                dst[f * 16 + t] = result.magnitude[frame_start + t][f];
+            }
+        }
+        inputs.push_back(input);
+    }
+}
+
+
+
+
