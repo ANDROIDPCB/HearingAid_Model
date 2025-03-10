@@ -1,0 +1,7 @@
+#ifndef RK3588_DEMO_PREPROCESS_DEEPFIR_H
+#define RK3588_DEMO_PREPROCESS_DEEPFIR_H
+
+#include "types/datatype.h"
+
+
+#endif // RK3588_DEMO_PREPROCESS_H
