@@ -1,18 +1,5 @@
 #include "preprocess_deepfir.h"
 
-#include "utils/logging.h"
-#include <vector>
-#include <cmath>
-#include <stdexcept>
-#include <sndfile.h>
-#include <kiss_fft.h>
-
-
-struct STFTResult {
-    std::vector<std::vector<float>> magnitude;
-    std::vector<std::vector<float>> phase;
-};
-
 STFTResult compute_stft(const char* filename, 
                        int n_fft = 256,
                        int hop_length = 16,

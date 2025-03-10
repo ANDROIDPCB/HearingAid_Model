@@ -11,10 +11,10 @@ public:
     ~DeepFIR();
 
     nn_error_e LoadModel(const char *model_path);                        // 加载模型
-    nn_error_e Run(const cv::Mat &img, std::vector<Detection> &objects); // 运行模型
+    nn_error_e Run(const char *audio_file, std::vector<Detection> &objects); // 运行模型
 
 private:
-    nn_error_e Preprocess(const cv::Mat &img);                                   // 图像预处理
+    nn_error_e Preprocess(const char *audio_file);                                   // 图像预处理
     nn_error_e Inference();                                                      // 推理
     nn_error_e Postprocess(const cv::Mat &img, std::vector<Detection> &objects); // 后处理
 

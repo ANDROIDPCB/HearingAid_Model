@@ -6,6 +6,7 @@ int main(int argc, char **argv)
 {
     // model file path
     const char *model_file = argv[1];
+    const char *audio_file = argv[2];
     // 初始化
     DeepFIR deepfir;
     // 加载模型
@@ -13,7 +14,7 @@ int main(int argc, char **argv)
 
     // 运行模型
     std::vector<Detection> objects;
-    // deepfir.Run(img, objects);
+    deepfir.Run(audio_file, objects);
 
     return 0;
 }

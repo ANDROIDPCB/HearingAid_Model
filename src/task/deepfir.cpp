@@ -1,5 +1,6 @@
 
 #include "deepfir.h"
+#include <preprocess_deepfir.h>
 
 
 
@@ -77,16 +78,17 @@ nn_error_e DeepFIR::LoadModel(const char *model_path)
 }
 
 // 运行模型
-nn_error_e DeepFIR::Run(const cv::Mat &img, std::vector<Detection> &objects)
+nn_error_e DeepFIR::Run(const char *audio_file, std::vector<Detection> &objects)
 {
-    Inference();               // 推理
+    Preprocess(audio_file);
+    // Inference();               // 推理
     return NN_SUCCESS;
 }
 // 图像预处理
-nn_error_e DeepFIR::Preprocess(const cv::Mat &image)
+nn_error_e DeepFIR::Preprocess(const char *audio_file)
 {
     // 将预处理后的结果放入input_tensor_中
-    
+    compute_stft(audio_file,256,16,256);
     return NN_SUCCESS;
 }
 

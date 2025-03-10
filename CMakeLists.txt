@@ -35,14 +35,13 @@ include_directories(
     ${RGA_DIR}/include
 )
 
-# 构建预处理和后处理库
-add_library(nn_process SHARED
-            src/process/preprocess.cpp
-            src/process/postprocess.cpp
-)
+
+# 构建DEEPFIR的预处理库
+# deepfir_lib
+add_library(deepfir_process SHARED src/process/preprocess_deepfir.cpp)
 # 链接库
-target_link_libraries(nn_process
-    ${OpenCV_LIBS}
+target_link_libraries(deepfir_process
+
 )
 
 # 构建自定义封装API库
@@ -51,13 +50,7 @@ add_library(rknn_engine SHARED src/engine/rknn_engine.cpp)
 target_link_libraries(rknn_engine
     ${RKNN_API_LIB_PATH}
 )
-# yolov5_lib
-add_library(yolov5_lib SHARED src/task/yolov5.cpp)
-# 链接库
-target_link_libraries(yolov5_lib
-    rknn_engine
-    nn_process
-)
+
 
 # deepfir_lib
 add_library(deepfir_lib SHARED src/task/deepfir.cpp)
@@ -66,31 +59,6 @@ target_link_libraries(deepfir_lib
     rknn_engine
 )
 
-
-# draw_lib
-add_library(draw_lib SHARED src/draw/cv_draw.cpp)
-# 链接库
-target_link_libraries(draw_lib
-    ${OpenCV_LIBS}
-)
-
-# 测试自yolov5
-add_executable(yolov5_test src/yolov5_test.cpp)
-
-# 链接库
-target_link_libraries(yolov5_test
-        draw_lib
-        yolov5_lib
-)
-
-# 测试yolov5_video
-add_executable(yolov5_video src/yolov5_video.cpp)
-
-# 链接库
-target_link_libraries(yolov5_video
-        draw_lib
-        yolov5_lib
-)
 
 # 测试deepfir
 add_executable(deepfir src/DeepFIR_test.cpp)
