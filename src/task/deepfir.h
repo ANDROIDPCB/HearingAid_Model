@@ -15,12 +15,12 @@ public:
 
 private:
     nn_error_e Preprocess(const char *audio_file, STFTResult &result);                                   // 图像预处理
-    nn_error_e Inference(STFTResult &result);                                                      // 推理
+    nn_error_e Inference(STFTResult &result,tensor_data_s &tensor);                                                      // 推理
     nn_error_e Postprocess(const cv::Mat &img, std::vector<Detection> &objects); // 后处理
 
-    void process_outputs(const std::vector<tensor_data_s>& inputs,
-        std::vector<tensor_data_s>& outputs,
-        STFTResult& result);
+    // void process_outputs(const std::vector<tensor_data_s>& inputs,
+    //     std::vector<tensor_data_s>& outputs,
+    //     STFTResult& result);
 
     tensor_data_s input_tensor_;
     std::vector<tensor_data_s> output_tensors_;

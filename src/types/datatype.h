@@ -76,7 +76,7 @@ static void nn_tensor_attr_to_cvimg_input_data(const tensor_attr_s &attr, tensor
     }
     data.attr.n_dims = attr.n_dims;
     data.attr.index = 0;
-    data.attr.type = NN_TENSOR_UINT8;
+    data.attr.type = NN_TENSOR_FLOAT16;
     data.attr.layout = NN_TENSOR_NHWC;
     if (attr.layout == NN_TENSOR_NCHW)
     {

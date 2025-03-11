@@ -155,6 +155,7 @@ void prepare_inputs(const STFTResult& result,
                 dst[f * 16 + t] = result.magnitude[frame_start + t][f];
             }
         }
+        
         inputs.push_back(input);
     }
 }
