@@ -94,6 +94,46 @@ STFTResult compute_stft(const char* filename, STFTResult &result)
 
 
 // 数据保存成图片
+void save_spectrogramFP16(const std::vector<std::vector<__fp16>>& magnitude,
+    const std::string& output_path,
+    int img_width,
+    int img_height,
+    bool use_log_scale) 
+{
+    if (magnitude.empty() || magnitude[0].empty()) {
+        throw std::invalid_argument("Empty magnitude data");
+    }
+
+    // 转换为OpenCV矩阵
+    const int frames = magnitude.size();
+    const int bins = magnitude[0].size();
+    cv::Mat spectrogram(bins, frames, CV_32FC1);
+
+    // 填充数据并进行对数变换
+    for (int t = 0; t < frames; ++t) {
+            for (int f = 0; f < bins; ++f) {
+            float val = magnitude[t][f];
+            spectrogram.at<float>(bins - 1 - f, t) = 
+            use_log_scale ? log10f(val + 1e-6f) : val;
+        }
+    }
+
+    // 归一化到0-255
+    cv::normalize(spectrogram, spectrogram, 0, 255, cv::NORM_MINMAX);
+    spectrogram.convertTo(spectrogram, CV_8UC1);
+
+    // 调整尺寸并应用颜色映射
+    cv::resize(spectrogram, spectrogram, cv::Size(img_width, img_height));
+    cv::applyColorMap(spectrogram, spectrogram, cv::COLORMAP_MAGMA);
+
+    // 保存图像
+    if (!cv::imwrite(output_path, spectrogram)) {
+        throw std::runtime_error("Failed to save image: " + output_path);
+    }
+}
+
+
+// 数据保存成图片
 void save_spectrogram(const std::vector<std::vector<float>>& magnitude,
     const std::string& output_path,
     int img_width,

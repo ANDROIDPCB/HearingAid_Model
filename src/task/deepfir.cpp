@@ -43,6 +43,7 @@ DeepFIR::~DeepFIR()
 // 加载模型，获取输入输出属性
 nn_error_e DeepFIR::LoadModel(const char *model_path)
 {
+
     auto ret = engine_->LoadModelFile(model_path);
     if (ret != NN_SUCCESS)
     {
@@ -59,7 +60,7 @@ nn_error_e DeepFIR::LoadModel(const char *model_path)
         return NN_RKNN_INPUT_ATTR_ERROR;
     }
     nn_tensor_attr_to_cvimg_input_data(input_shapes[0], input_tensor_);
-    input_tensor_.attr.size = input_tensor_.attr.n_elems * nn_tensor_type_to_size(input_tensor_.attr.type); //
+    input_tensor_.attr.size = input_tensor_.attr.n_elems * nn_tensor_type_to_size(input_tensor_.attr.type); //nn_tensor_type_to_size(input_tensor_.attr.type)
     input_tensor_.data = malloc(input_tensor_.attr.size);
 
     auto output_shapes = engine_->GetOutputShapes();
@@ -68,8 +69,8 @@ nn_error_e DeepFIR::LoadModel(const char *model_path)
     {
         tensor_data_s tensor;
         tensor.attr.n_elems = output_shapes[i].n_elems;
-        tensor.attr.n_dims = output_shapes[i].n_dims;
-        for (int j = 0; j < output_shapes[i].n_dims; j++)
+        tensor.attr.n_dims = 4;//output_shapes[i].n_dims
+        for (int j = 0; j < 4; j++)
         {
             tensor.attr.dims[j] = output_shapes[i].dims[j];
         }
@@ -81,6 +82,9 @@ nn_error_e DeepFIR::LoadModel(const char *model_path)
         }
         tensor.attr.type = output_shapes[i].type;
         tensor.attr.index = i;
+        tensor.attr.layout = output_shapes[i].layout;
+        tensor.attr.zp = output_shapes[i].zp;
+        tensor.attr.scale = output_shapes[i].scale;
         tensor.attr.size = output_shapes[i].n_elems * nn_tensor_type_to_size(tensor.attr.type);
         // tensor.attr.size = output_shapes[i].n_elems;
         tensor.data = malloc(tensor.attr.size);
@@ -112,7 +116,7 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
     std::vector<tensor_data_s> inputs;
     // // 步骤1：准备输入数据
     // prepare_inputs(stft_result, inputs);
-    std::vector<std::vector<float>> result_matrix;  // 假设数据类型为float
+    std::vector<std::vector<__fp16>> result_matrix;  // 假设数据类型为float
     
     const int total_frames = result.magnitude.size();
     const int freq_bins = result.magnitude[0].size();
@@ -121,9 +125,9 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
     // 1. 创建连续内存容器存储数据
     const int num_time = 16;    // 时间维度大小
     const int num_freq = 129;   // 频率维度大小
-    std::vector<float> Push(num_time * num_freq);  // 根据实际数据类型调整（如float/int）
+    std::vector<__fp16> Push(num_time * num_freq);  // 根据实际数据类型调整（如float/int）
     const int total_batches = total_frames / batch_size;
-    result_matrix.resize(total_batches*16, std::vector<float>(129));
+    result_matrix.resize(total_batches*16, std::vector<__fp16>(129));
     for (int batch_idx = 0; batch_idx < total_batches; ++batch_idx) {
         tensor_data_s input;
         // 分配内存并填充数据（转置操作）
@@ -135,7 +139,7 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
             for (int t = 0; t < 16; ++t) {  // 时间维度
                 // 计算一维索引（行优先）
                 // int index = t * num_freq + f;
-                Push[index] = 1; //result.magnitude[frame_start + t][f]
+                Push[index] = result.magnitude[frame_start + t][f]/4000; //result.magnitude[frame_start + t][f]
                 index++;
             }
         }
@@ -153,6 +157,9 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
         memcpy(tensor.data, fp16_data.data(), fp16_bytes);
         // memcpy(tensor.data, Push.data(), tensor.attr.size);
         inputs.push_back(tensor);
+        inputs[0].attr.zp = 0;
+        inputs[0].attr.scale = 1;
+        output_tensors_[0].attr.layout = NN_TENSOR_NHWC;
         engine_->Run(inputs, output_tensors_, false);
         
         
@@ -166,14 +173,26 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
                 // 获取 output_tensors_ 中对应位置的值（忽略第4维）
                 __fp16 output_val = *((__fp16*)output_tensors_[0].data + freq * 16 + time);
                 // 计算乘积
-                result_matrix[batch_idx*16 + time][freq] = input_val * 1;
+                result_matrix[batch_idx*16 + time][freq] = input_val * output_val;
             }
         }
+        // for (int time = 0; time < 16; ++time) {
+        //     for (int freq = 0; freq < 129; ++freq) {
+        //         // 获取 inputs 中对应位置的值
+        //         __fp16 input_val = *((__fp16*)inputs[0].data + freq);
+        //         // 获取 output_tensors_ 中对应位置的值（忽略第4维）
+        //         __fp16 output_val = *((__fp16*)output_tensors_[0].data + freq);
+        //         // 计算乘积
+        //         result_matrix[batch_idx*16 + time][freq] = input_val * output_val;
+        //     }
+        // }
+
+
 
 
         inputs.clear();
     }
-    save_spectrogram(result_matrix, "spectrogram_Final.jpg");
+    save_spectrogramFP16(result_matrix, "spectrogram_Final.jpg");
 
     // for (size_t i = 0; i < inputs.size(); ++i) {
     //     // 运行模型0
