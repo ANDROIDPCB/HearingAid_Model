@@ -69,8 +69,8 @@ nn_error_e DeepFIR::LoadModel(const char *model_path)
     {
         tensor_data_s tensor;
         tensor.attr.n_elems = output_shapes[i].n_elems;
-        tensor.attr.n_dims = 4;//output_shapes[i].n_dims
-        for (int j = 0; j < 4; j++)
+        tensor.attr.n_dims = output_shapes[i].n_dims;//output_shapes[i].n_dims
+        for (int j = 0; j < output_shapes[i].n_dims; j++)
         {
             tensor.attr.dims[j] = output_shapes[i].dims[j];
         }
@@ -139,7 +139,7 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
             for (int t = 0; t < 16; ++t) {  // 时间维度
                 // 计算一维索引（行优先）
                 // int index = t * num_freq + f;
-                Push[index] = result.magnitude[frame_start + t][f]/4000; //result.magnitude[frame_start + t][f]
+                Push[index] = 1; //result.magnitude[frame_start + t][f]
                 index++;
             }
         }
@@ -192,7 +192,7 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
 
         inputs.clear();
     }
-    save_spectrogramFP16(result_matrix, "spectrogram_Final.jpg");
+    save_spectrogramFP16(result_matrix, "spectrogram_Final_BN.jpg");
 
     // for (size_t i = 0; i < inputs.size(); ++i) {
     //     // 运行模型0
