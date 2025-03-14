@@ -139,7 +139,7 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
             for (int t = 0; t < 16; ++t) {  // 时间维度
                 // 计算一维索引（行优先）
                 // int index = t * num_freq + f;
-                Push[index] = 1; //result.magnitude[frame_start + t][f]
+                Push[index] = result.magnitude[frame_start + t][f]; //result.magnitude[frame_start + t][f]
                 index++;
             }
         }
@@ -186,10 +186,6 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
         //         result_matrix[batch_idx*16 + time][freq] = input_val * output_val;
         //     }
         // }
-
-
-
-
         inputs.clear();
     }
     save_spectrogramFP16(result_matrix, "spectrogram_Final_BN.jpg");

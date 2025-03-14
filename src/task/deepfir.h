@@ -21,7 +21,7 @@ private:
     // void process_outputs(const std::vector<tensor_data_s>& inputs,
     //     std::vector<tensor_data_s>& outputs,
     //     STFTResult& result);
-
+    
     tensor_data_s input_tensor_;
     std::vector<tensor_data_s> output_tensors_;
     std::vector<int32_t> out_zps_;
