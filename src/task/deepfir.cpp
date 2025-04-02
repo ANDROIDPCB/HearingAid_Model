@@ -120,23 +120,23 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
     
     const int total_frames = result.magnitude.size();
     const int freq_bins = result.magnitude[0].size();
-    const int batch_size = 16;
+    const int batch_size = 30;
     inputs.clear();
     // 1. 创建连续内存容器存储数据
-    const int num_time = 16;    // 时间维度大小
+    const int num_time = 30;    // 时间维度大小
     const int num_freq = 129;   // 频率维度大小
     std::vector<__fp16> Push(num_time * num_freq);  // 根据实际数据类型调整（如float/int）
     const int total_batches = total_frames / batch_size;
-    result_matrix.resize(total_batches*16, std::vector<__fp16>(129));
+    result_matrix.resize(total_batches*30, std::vector<__fp16>(129));
     for (int batch_idx = 0; batch_idx < total_batches; ++batch_idx) {
         tensor_data_s input;
         // 分配内存并填充数据（转置操作）
-        input.data = new float[129 * 16];
+        input.data = new float[129 * 30];
         float* dst = static_cast<float*>(input.data);
         const int frame_start = batch_idx * batch_size;
         int index = 0;
         for (int f = 0; f < 129; ++f) {     // 频率维度
-            for (int t = 0; t < 16; ++t) {  // 时间维度
+            for (int t = 0; t < 30; ++t) {  // 时间维度
                 // 计算一维索引（行优先）
                 // int index = t * num_freq + f;
                 Push[index] = result.magnitude[frame_start + t][f]; //result.magnitude[frame_start + t][f]
@@ -167,13 +167,13 @@ nn_error_e DeepFIR::Inference(STFTResult &result, tensor_data_s &tensor)
         // 把输出和输入相乘
         // 遍历频率维度 (0~128) 和时间维度 (0~15)
         for (int freq = 0; freq < 129; ++freq) {
-            for (int time = 0; time < 16; ++time) {
+            for (int time = 0; time < 30; ++time) {
                 // 获取 inputs 中对应位置的值
-                __fp16 input_val = *((__fp16*)inputs[0].data + freq * 16 + time);
+                __fp16 input_val = *((__fp16*)inputs[0].data + freq * 30 + time);
                 // 获取 output_tensors_ 中对应位置的值（忽略第4维）
-                __fp16 output_val = *((__fp16*)output_tensors_[0].data + freq * 16 + time);
+                __fp16 output_val = *((__fp16*)output_tensors_[0].data + freq * 30 + time);
                 // 计算乘积
-                result_matrix[batch_idx*16 + time][freq] = input_val * output_val;
+                result_matrix[batch_idx*30 + time][freq] = input_val * output_val;
             }
         }
         // for (int time = 0; time < 16; ++time) {

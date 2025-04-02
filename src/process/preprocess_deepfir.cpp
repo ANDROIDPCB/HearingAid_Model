@@ -7,7 +7,7 @@ STFTResult compute_stft(const char* filename, STFTResult &result)
     // 初始化返回结构
     // STFTResult result;
 
-    int n_fft = 256,hop_length = 16,win_length = 256;
+    int n_fft = 256,hop_length = 30,win_length = 256;
 
     // 1. 读取音频文件
     SF_INFO sfinfo = {0};
