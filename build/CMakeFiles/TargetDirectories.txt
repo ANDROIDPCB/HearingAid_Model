@@ -2,5 +2,7 @@
 /home/orangepi/HearingAid_Model/build/CMakeFiles/rknn_engine.dir
 /home/orangepi/HearingAid_Model/build/CMakeFiles/deepfir_lib.dir
 /home/orangepi/HearingAid_Model/build/CMakeFiles/deepfir.dir
+/home/orangepi/HearingAid_Model/build/CMakeFiles/AudioRT_lib.dir
+/home/orangepi/HearingAid_Model/build/CMakeFiles/main_AudioRT.dir
 /home/orangepi/HearingAid_Model/build/CMakeFiles/edit_cache.dir
 /home/orangepi/HearingAid_Model/build/CMakeFiles/rebuild_cache.dir

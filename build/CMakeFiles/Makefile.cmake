@@ -26,6 +26,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.22/Modules/Compiler/GNU.cmake"
   "/usr/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.22/Modules/FindPackageMessage.cmake"
+  "/usr/share/cmake-3.22/Modules/FindPkgConfig.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/Linux-GNU-CXX.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/Linux-GNU.cmake"
   "/usr/share/cmake-3.22/Modules/Platform/Linux.cmake"
@@ -49,4 +50,6 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/rknn_engine.dir/DependInfo.cmake"
   "CMakeFiles/deepfir_lib.dir/DependInfo.cmake"
   "CMakeFiles/deepfir.dir/DependInfo.cmake"
+  "CMakeFiles/AudioRT_lib.dir/DependInfo.cmake"
+  "CMakeFiles/main_AudioRT.dir/DependInfo.cmake"
   )

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/orangepi/HearingAid_Model/librknn_api/include -I/home/orangepi/HearingAid_Model/src -I/include -I/home/orangepi/HearingAid_Model/include -isystem /usr/include/opencv4
+CXX_INCLUDES = -I/home/orangepi/HearingAid_Model/librknn_api/include -I/home/orangepi/HearingAid_Model/src -I/include -I/home/orangepi/HearingAid_Model/include -I/home/orangepi/HearingAid_Model/src/utool_AudioRT -isystem /usr/include/opencv4
 
 CXX_FLAGS = -g -std=gnu++14
 

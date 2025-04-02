@@ -168,6 +168,32 @@ deepfir/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/deepfir.dir/build.make CMakeFiles/deepfir.dir/build
 .PHONY : deepfir/fast
 
+#=============================================================================
+# Target rules for targets named AudioRT_lib
+
+# Build rule for target.
+AudioRT_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 AudioRT_lib
+.PHONY : AudioRT_lib
+
+# fast build rule for target.
+AudioRT_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_lib.dir/build.make CMakeFiles/AudioRT_lib.dir/build
+.PHONY : AudioRT_lib/fast
+
+#=============================================================================
+# Target rules for targets named main_AudioRT
+
+# Build rule for target.
+main_AudioRT: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main_AudioRT
+.PHONY : main_AudioRT
+
+# fast build rule for target.
+main_AudioRT/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_AudioRT.dir/build.make CMakeFiles/main_AudioRT.dir/build
+.PHONY : main_AudioRT/fast
+
 src/DeepFIR_test.o: src/DeepFIR_test.cpp.o
 .PHONY : src/DeepFIR_test.o
 
@@ -215,6 +241,30 @@ src/engine/rknn_engine.s: src/engine/rknn_engine.cpp.s
 src/engine/rknn_engine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rknn_engine.dir/build.make CMakeFiles/rknn_engine.dir/src/engine/rknn_engine.cpp.s
 .PHONY : src/engine/rknn_engine.cpp.s
+
+src/main_AudioRT.o: src/main_AudioRT.cpp.o
+.PHONY : src/main_AudioRT.o
+
+# target to build an object file
+src/main_AudioRT.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_AudioRT.dir/build.make CMakeFiles/main_AudioRT.dir/src/main_AudioRT.cpp.o
+.PHONY : src/main_AudioRT.cpp.o
+
+src/main_AudioRT.i: src/main_AudioRT.cpp.i
+.PHONY : src/main_AudioRT.i
+
+# target to preprocess a source file
+src/main_AudioRT.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_AudioRT.dir/build.make CMakeFiles/main_AudioRT.dir/src/main_AudioRT.cpp.i
+.PHONY : src/main_AudioRT.cpp.i
+
+src/main_AudioRT.s: src/main_AudioRT.cpp.s
+.PHONY : src/main_AudioRT.s
+
+# target to generate assembly for a file
+src/main_AudioRT.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_AudioRT.dir/build.make CMakeFiles/main_AudioRT.dir/src/main_AudioRT.cpp.s
+.PHONY : src/main_AudioRT.cpp.s
 
 src/process/preprocess_deepfir.o: src/process/preprocess_deepfir.cpp.o
 .PHONY : src/process/preprocess_deepfir.o
@@ -264,6 +314,30 @@ src/task/deepfir.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/deepfir_lib.dir/build.make CMakeFiles/deepfir_lib.dir/src/task/deepfir.cpp.s
 .PHONY : src/task/deepfir.cpp.s
 
+src/utool_AudioRT/Audio_RT_Base.o: src/utool_AudioRT/Audio_RT_Base.cpp.o
+.PHONY : src/utool_AudioRT/Audio_RT_Base.o
+
+# target to build an object file
+src/utool_AudioRT/Audio_RT_Base.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_lib.dir/build.make CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o
+.PHONY : src/utool_AudioRT/Audio_RT_Base.cpp.o
+
+src/utool_AudioRT/Audio_RT_Base.i: src/utool_AudioRT/Audio_RT_Base.cpp.i
+.PHONY : src/utool_AudioRT/Audio_RT_Base.i
+
+# target to preprocess a source file
+src/utool_AudioRT/Audio_RT_Base.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_lib.dir/build.make CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.i
+.PHONY : src/utool_AudioRT/Audio_RT_Base.cpp.i
+
+src/utool_AudioRT/Audio_RT_Base.s: src/utool_AudioRT/Audio_RT_Base.cpp.s
+.PHONY : src/utool_AudioRT/Audio_RT_Base.s
+
+# target to generate assembly for a file
+src/utool_AudioRT/Audio_RT_Base.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_lib.dir/build.make CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.s
+.PHONY : src/utool_AudioRT/Audio_RT_Base.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -272,9 +346,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... AudioRT_lib"
 	@echo "... deepfir"
 	@echo "... deepfir_lib"
 	@echo "... deepfir_process"
+	@echo "... main_AudioRT"
 	@echo "... rknn_engine"
 	@echo "... src/DeepFIR_test.o"
 	@echo "... src/DeepFIR_test.i"
@@ -282,12 +358,18 @@ help:
 	@echo "... src/engine/rknn_engine.o"
 	@echo "... src/engine/rknn_engine.i"
 	@echo "... src/engine/rknn_engine.s"
+	@echo "... src/main_AudioRT.o"
+	@echo "... src/main_AudioRT.i"
+	@echo "... src/main_AudioRT.s"
 	@echo "... src/process/preprocess_deepfir.o"
 	@echo "... src/process/preprocess_deepfir.i"
 	@echo "... src/process/preprocess_deepfir.s"
 	@echo "... src/task/deepfir.o"
 	@echo "... src/task/deepfir.i"
 	@echo "... src/task/deepfir.s"
+	@echo "... src/utool_AudioRT/Audio_RT_Base.o"
+	@echo "... src/utool_AudioRT/Audio_RT_Base.i"
+	@echo "... src/utool_AudioRT/Audio_RT_Base.s"
 .PHONY : help
 
 

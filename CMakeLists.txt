@@ -20,9 +20,12 @@ set(RKNN_API_PATH ${CMAKE_CURRENT_SOURCE_DIR}/librknn_api)
 set(RKNN_API_INCLUDE_PATH ${RKNN_API_PATH}/include)
 #  rknn_api lib 路径
 set(RKNN_API_LIB_PATH ${RKNN_API_PATH}/${LIB_ARCH}/librknnrt.so)
-
+# 查找库的工具
+find_package(PkgConfig REQUIRED)
 # 寻找本地的opencv
 find_package(OpenCV REQUIRED)
+# 查找PortAudio库--用于音频实时播放
+pkg_check_modules(PORTAUDIO REQUIRED IMPORTED_TARGET portaudio-2.0)
 # 输出OpenCV信息
 message(STATUS "include path: ${OpenCV_INCLUDE_DIRS}")
 
@@ -42,6 +45,7 @@ include_directories(
     ${RGA_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include  # 你的头文件目录
     ${KISSFFT_INCLUDE_DIRS}              # 如果kissfft需要特殊包含路径
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/utool_AudioRT
 )
 
 
@@ -71,10 +75,24 @@ target_link_libraries(deepfir_lib
     deepfir_process
 )
 
-
 # 测试deepfir
 add_executable(deepfir src/DeepFIR_test.cpp)
 # 链接库
 target_link_libraries(deepfir
         deepfir_lib
 )
+
+
+# 实时音频输入输出工程
+add_library(AudioRT_lib SHARED src/utool_AudioRT/Audio_RT_Base.cpp) # 添加动态库
+# 链接库
+target_link_libraries(AudioRT_lib
+    PkgConfig::PORTAUDIO  # PortAudio库
+)
+
+add_executable(main_AudioRT src/main_AudioRT.cpp)
+# 链接库
+target_link_libraries(main_AudioRT
+    AudioRT_lib    # 你的动态库
+)
+

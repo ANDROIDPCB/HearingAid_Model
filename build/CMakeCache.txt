@@ -204,11 +204,32 @@ KISSFFT_LIB:FILEPATH=/usr/lib/aarch64-linux-gnu/libkissfft-float.so
 //The directory containing a CMake configuration file for OpenCV.
 OpenCV_DIR:PATH=/usr/lib/aarch64-linux-gnu/cmake/opencv4
 
+//Arguments to supply to pkg-config
+PKG_CONFIG_ARGN:STRING=
+
+//pkg-config executable
+PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
+
+//The directory containing a CMake configuration file for PortAudio.
+PortAudio_DIR:PATH=PortAudio_DIR-NOTFOUND
+
 //Dependencies for the target
 deepfir_lib_LIB_DEPENDS:STATIC=general;rknn_engine;general;deepfir_process;
 
 //Dependencies for the target
 deepfir_process_LIB_DEPENDS:STATIC=general;sndfile;general;opencv_calib3d;general;opencv_core;general;opencv_dnn;general;opencv_features2d;general;opencv_flann;general;opencv_highgui;general;opencv_imgcodecs;general;opencv_imgproc;general;opencv_ml;general;opencv_objdetect;general;opencv_photo;general;opencv_stitching;general;opencv_video;general;opencv_videoio;general;opencv_alphamat;general;opencv_aruco;general;opencv_barcode;general;opencv_bgsegm;general;opencv_bioinspired;general;opencv_ccalib;general;opencv_datasets;general;opencv_dnn_objdetect;general;opencv_dnn_superres;general;opencv_dpm;general;opencv_face;general;opencv_freetype;general;opencv_fuzzy;general;opencv_hdf;general;opencv_hfs;general;opencv_img_hash;general;opencv_intensity_transform;general;opencv_line_descriptor;general;opencv_mcc;general;opencv_optflow;general;opencv_phase_unwrapping;general;opencv_plot;general;opencv_quality;general;opencv_rapid;general;opencv_reg;general;opencv_rgbd;general;opencv_saliency;general;opencv_shape;general;opencv_stereo;general;opencv_structured_light;general;opencv_superres;general;opencv_surface_matching;general;opencv_text;general;opencv_tracking;general;opencv_videostab;general;opencv_viz;general;opencv_wechat_qrcode;general;opencv_ximgproc;general;opencv_xobjdetect;general;opencv_xphoto;general;/usr/lib/aarch64-linux-gnu/libkissfft-float.so;general;m;
+
+//Path to a library.
+pkgcfg_lib_PORTAUDIO_asound:FILEPATH=/usr/lib/aarch64-linux-gnu/libasound.so
+
+//Path to a library.
+pkgcfg_lib_PORTAUDIO_m:FILEPATH=/usr/lib/aarch64-linux-gnu/libm.so
+
+//Path to a library.
+pkgcfg_lib_PORTAUDIO_portaudio:FILEPATH=/usr/lib/aarch64-linux-gnu/libportaudio.so
+
+//Path to a library.
+pkgcfg_lib_PORTAUDIO_pthread:FILEPATH=/usr/lib/aarch64-linux-gnu/libpthread.a
 
 //Value Computed by CMake
 rk3588-demo_BINARY_DIR:STATIC=/home/orangepi/HearingAid_Model/build
@@ -356,4 +377,56 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding OpenCV
 FIND_PACKAGE_MESSAGE_DETAILS_OpenCV:INTERNAL=[/usr][v4.5.4()]
+//Details about finding PkgConfig
+FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v0.29.2()]
+//ADVANCED property for variable: PKG_CONFIG_ARGN
+PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
+PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+PORTAUDIO_CFLAGS:INTERNAL=-pthread
+PORTAUDIO_CFLAGS_I:INTERNAL=
+PORTAUDIO_CFLAGS_OTHER:INTERNAL=-pthread
+PORTAUDIO_FOUND:INTERNAL=1
+PORTAUDIO_INCLUDEDIR:INTERNAL=/usr/include
+PORTAUDIO_INCLUDE_DIRS:INTERNAL=
+PORTAUDIO_LDFLAGS:INTERNAL=-L/usr/lib/aarch64-linux-gnu;-lportaudio;-lasound;-lm;-lpthread
+PORTAUDIO_LDFLAGS_OTHER:INTERNAL=
+PORTAUDIO_LIBDIR:INTERNAL=/usr/lib/aarch64-linux-gnu
+PORTAUDIO_LIBRARIES:INTERNAL=portaudio;asound;m;pthread
+PORTAUDIO_LIBRARY_DIRS:INTERNAL=/usr/lib/aarch64-linux-gnu
+PORTAUDIO_LIBS:INTERNAL=
+PORTAUDIO_LIBS_L:INTERNAL=
+PORTAUDIO_LIBS_OTHER:INTERNAL=
+PORTAUDIO_LIBS_PATHS:INTERNAL=
+PORTAUDIO_MODULE_NAME:INTERNAL=portaudio-2.0
+PORTAUDIO_PREFIX:INTERNAL=/usr
+PORTAUDIO_STATIC_CFLAGS:INTERNAL=-pthread
+PORTAUDIO_STATIC_CFLAGS_I:INTERNAL=
+PORTAUDIO_STATIC_CFLAGS_OTHER:INTERNAL=-pthread
+PORTAUDIO_STATIC_INCLUDE_DIRS:INTERNAL=
+PORTAUDIO_STATIC_LDFLAGS:INTERNAL=-L/usr/lib/aarch64-linux-gnu;-lportaudio;-lasound;-lm;-lpthread
+PORTAUDIO_STATIC_LDFLAGS_OTHER:INTERNAL=
+PORTAUDIO_STATIC_LIBDIR:INTERNAL=
+PORTAUDIO_STATIC_LIBRARIES:INTERNAL=portaudio;asound;m;pthread
+PORTAUDIO_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib/aarch64-linux-gnu
+PORTAUDIO_STATIC_LIBS:INTERNAL=
+PORTAUDIO_STATIC_LIBS_L:INTERNAL=
+PORTAUDIO_STATIC_LIBS_OTHER:INTERNAL=
+PORTAUDIO_STATIC_LIBS_PATHS:INTERNAL=
+PORTAUDIO_VERSION:INTERNAL=19
+PORTAUDIO_portaudio-2.0_INCLUDEDIR:INTERNAL=
+PORTAUDIO_portaudio-2.0_LIBDIR:INTERNAL=
+PORTAUDIO_portaudio-2.0_PREFIX:INTERNAL=
+PORTAUDIO_portaudio-2.0_VERSION:INTERNAL=
+__pkg_config_arguments_PORTAUDIO:INTERNAL=REQUIRED;IMPORTED_TARGET;portaudio-2.0
+__pkg_config_checked_PORTAUDIO:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PORTAUDIO_asound
+pkgcfg_lib_PORTAUDIO_asound-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PORTAUDIO_m
+pkgcfg_lib_PORTAUDIO_m-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PORTAUDIO_portaudio
+pkgcfg_lib_PORTAUDIO_portaudio-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_PORTAUDIO_pthread
+pkgcfg_lib_PORTAUDIO_pthread-ADVANCED:INTERNAL=1
+prefix_result:INTERNAL=/usr/lib/aarch64-linux-gnu
 
