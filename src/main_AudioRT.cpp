@@ -51,7 +51,9 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
     // 将样本数据进行push
     for (unsigned int i = 0; i < sampleNum; i++) {
         if(index_num == 0){
-            //删除开头的点
+            //删除开头的点  
+
+            
             Time_Cache[index_num].pop_front();
         }
         else{
