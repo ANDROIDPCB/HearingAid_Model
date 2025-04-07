@@ -88,13 +88,13 @@ std::vector<std::vector<__fp16>> apply_window_multiply(
     assert(Time_Cache_Matrix[0].size() == Anly_Windows.size());
 
     // 预分配结果内存
-    std::vector<std::vector<__fp16>> result(Time_Cache_Matrix.size(),std::vector<__fp16>(Time_Cache_Matrix[0].size()));
-    // result.resize(Time_Cache_Matrix.size(),std::vector<__fp16>(Time_Cache_Matrix[0].size()));
+    std::vector<std::vector<__fp16>> result;
+    result.reserve(Time_Cache_Matrix.size());
     
     // 并行友好的逐元素乘法
     for (const auto& row : Time_Cache_Matrix) {
         std::vector<__fp16> multiplied_row;
-        multiplied_row.resize(row.size());
+        multiplied_row.reserve(row.size());
         
         for (size_t i = 0; i < row.size(); ++i) {
             // 使用 float 中间值避免精度损失
@@ -136,7 +136,7 @@ std::vector<__fp16> Generate_SysResult(
     const size_t start_row = matrix.size() > n_rows ? matrix.size() - n_rows : 0;
 
     std::vector<__fp16> row_result;
-    row_result.resize(HOP_SIZE);
+    // row_result.resize(HOP_SIZE);
     for (size_t j = 0; j < HOP_SIZE; ++j) {
         const float val_end2 = static_cast<float>(matrix[start_row][window.size() - HOP_SIZE - 1 + j]) 
                         * static_cast<float>(window[window.size() - HOP_SIZE - 1 + j]);
@@ -148,10 +148,3 @@ std::vector<__fp16> Generate_SysResult(
     
     return row_result;
 }
-
-void test_corruption() {
-    std::vector<std::vector<__fp16>> clean_matrix(30);
-    std::vector<std::vector<__fp16>> result;
-    result.resize(clean_matrix.size()); // 仅测试此处是否崩溃
-}
-

@@ -44,18 +44,21 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
     if(move_up_flage == 1){ // 数组整体上移
         deque_move_up(Time_Cache); 
     }
-    if(index_num > 1){ // 已经可以复制了
+    if(index_num >= 1){ // 已经可以复制了
         deque_copy_start_tar(Time_Cache, index_num - 1, index_num);
     }// 完成当前指定帧的复制
 
     // 将样本数据进行push
-    for (unsigned int i = 0; i < sampleNum * NUM_CHANNELS; i++) {
+    for (unsigned int i = 0; i < sampleNum; i++) {
         if(index_num == 0){
             //删除开头的点
             Time_Cache[index_num].pop_front();
         }
+        else{
+            Time_Cache[index_num].pop_back();
+        }
         //新的样本点推入末尾
-        Time_Cache[index_num].push_back(input[i].left);
+        Time_Cache[index_num].push_back(static_cast<__fp16>(input[i].left * 100));
     }
     // 表示缓存数据已经满了，可以进行输出了
     if(input_num == 33){
@@ -66,8 +69,7 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
             Time_Cache_Matrix = deque_to_matrix(Time_Cache);
             matrix_copy_flage = 1;
             // 添加窗函数，每一帧都添加分析窗函数
-            test_corruption();
-            // Time_Cache_Matrix = apply_window_multiply(Time_Cache_Matrix,Anly_Windows);
+            Time_Cache_Matrix = apply_window_multiply(Time_Cache_Matrix,Anly_Windows);
         }
         else{ 
             shift_matrix_up(Time_Cache_Matrix,Time_Cache); // 把数组整体上移一位，并且把队列的最后一行数据放到数组最后一行中

@@ -117,3 +117,30 @@ std::vector<std::vector<__fp16>> deque_to_matrix(const std::deque<std::deque<__f
     }
     return matrix;
 }
+
+// std::vector<std::vector<__fp16>> deque_to_matrix(const std::deque<std::deque<__fp16>>& dq) {
+//     // 安全检查
+//     if (dq.empty()) return {};
+//     const size_t cols = dq[0].size();
+    
+//     // 预分配二维矩阵内存
+//     std::vector<std::vector<__fp16>> matrix;
+//     matrix.reserve(dq.size());  // 预留行空间
+
+//     for (const auto& dq_row : dq) {
+//         // 列数一致性校验
+//         if (dq_row.size() != cols) {
+//             throw std::runtime_error("输入数据列数不一致");
+//         }
+
+//         // 逐元素类型转换
+//         std::vector<__fp16> matrix_row;
+//         matrix_row.reserve(cols);
+//         for (float val : dq_row) {
+//             matrix_row.push_back(static_cast<__fp16>(val));
+//         }
+//         matrix.push_back(std::move(matrix_row));
+//     }
+
+//     return matrix;
+// }
