@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libAudioRT_Process_lib.so -o libAudioRT_Process_lib.so CMakeFiles/AudioRT_Process_lib.dir/src/utool_AudioRT/Audio_RT_Process.cpp.o 

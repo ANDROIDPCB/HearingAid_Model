@@ -84,10 +84,12 @@ target_link_libraries(deepfir
 
 
 # 实时音频输入输出工程
+add_library(AudioRT_Process_lib SHARED src/utool_AudioRT/Audio_RT_Process.cpp) # 添加动态库
 add_library(AudioRT_lib SHARED src/utool_AudioRT/Audio_RT_Base.cpp) # 添加动态库
 # 链接库
 target_link_libraries(AudioRT_lib
     PkgConfig::PORTAUDIO  # PortAudio库
+    AudioRT_Process_lib
 )
 
 add_executable(main_AudioRT src/main_AudioRT.cpp)

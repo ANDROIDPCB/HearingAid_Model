@@ -92,6 +92,7 @@ AudioRT_lib_EXTERNAL_OBJECTS =
 
 libAudioRT_lib.so: CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o
 libAudioRT_lib.so: CMakeFiles/AudioRT_lib.dir/build.make
+libAudioRT_lib.so: libAudioRT_Process_lib.so
 libAudioRT_lib.so: /usr/lib/aarch64-linux-gnu/libportaudio.so
 libAudioRT_lib.so: /usr/lib/aarch64-linux-gnu/libasound.so
 libAudioRT_lib.so: /usr/lib/aarch64-linux-gnu/libm.so
