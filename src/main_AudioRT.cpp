@@ -6,6 +6,8 @@
 #include <deque>
 #include <algorithm>
 #include "utool_AudioRT/Audio_RT_Process.h"
+#include <fstream>
+
 
 // 定义时间缓存队列
 std::deque<std::deque<__fp16>> Time_Cache(
@@ -17,6 +19,13 @@ std::vector<std::vector<__fp16>> Time_Cache_Matrix; // 进行数组操作的原�
 std::vector<__fp16> Anly_Windows; // 分析窗口
 std::vector<__fp16> Sys_Windows; // 分析窗口
 std::vector<__fp16> result_AddSys; // 最后处理两帧叠加综合窗的结果
+
+// 测试变量，把音频的输入输出存储下来
+// 全局变量存储输入和输出的音频数据（16kHz * 20s = 320000 samples）
+std::vector<float> g_input_buffer(320000, 0.0f);  // 输入缓存
+std::vector<float> g_output_buffer(320000, 0.0f); // 输出缓存
+unsigned int g_sample_counter = 0;                // 样本计数器
+
 
 
 // 用于指定当前要进行音频塞入的行数
@@ -49,19 +58,20 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
     }// 完成当前指定帧的复制
 
     // 将样本数据进行push
-    for (unsigned int i = 0; i < sampleNum; i++) {
-        if(index_num == 0){
-            //删除开头的点  
-
-            
-            Time_Cache[index_num].pop_front();
+    {
+        for (unsigned int i = 0; i < sampleNum; i++) {
+            if(index_num == 0){
+                //删除开头的点  
+                Time_Cache[index_num].pop_front();
+                //新的样本点推入末尾
+                Time_Cache[index_num].push_back(static_cast<__fp16>(input[i].left * 100));
+            }
+            else{
+                Time_Cache[index_num][192 + i] = input[i].left*100;
+            }
         }
-        else{
-            Time_Cache[index_num].pop_back();
-        }
-        //新的样本点推入末尾
-        Time_Cache[index_num].push_back(static_cast<__fp16>(input[i].left * 100));
     }
+ 
     // 表示缓存数据已经满了，可以进行输出了
     if(input_num == 33){
         // 在这里面进行音频的算法流处理
@@ -89,8 +99,21 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
             output[i].right = result_AddSys[i];
         }
     }
+
+
+    // 记录输入和输出数据（不超过20秒）
+    for (unsigned int i = 0; i < sampleNum; ++i) {
+        if (g_sample_counter < 320000) {
+            g_input_buffer[g_sample_counter] = input[i].left;   // 输入信号
+            g_output_buffer[g_sample_counter] = output[i].left; // 输出信号
+            g_sample_counter++;
+        }
+    }
+
     return paContinue;  // 持续运行
 }
+
+
 
 int main(int argc, char **argv)
 {
@@ -102,6 +125,8 @@ int main(int argc, char **argv)
     Anly_Windows = asymmetric_Analy_windows(HOP_SIZE,WINDOW_SIZE,10);
     // 生成综合窗(IFFT输出的时域结果加窗)
     Sys_Windows = asymmetric_Sys_windows(HOP_SIZE,WINDOW_SIZE,10);
+
+
     // 初始化PortAudio
     err = Pa_Initialize();
     if (err != paNoError) {
@@ -111,7 +136,7 @@ int main(int argc, char **argv)
     // 列出所有音频设备
     list_audio_devices();
     // 获取用户输入设备索引-
-    int inputDeviceIndex, outputDeviceIndex;
+    int inputDeviceIndex = 1, outputDeviceIndex = 1;
     std::cout << "Enter input device index: ";
     std::cin >> inputDeviceIndex;
     std::cout << "Enter output device index: ";
@@ -168,6 +193,8 @@ int main(int argc, char **argv)
         std::cout << "停止录音并播放" << std::endl;
     }
 
+    // Pa_Sleep(20000);
+
     // 停止和关闭流
     err = Pa_StopStream(stream);
     if (err != paNoError) {
@@ -181,5 +208,11 @@ int main(int argc, char **argv)
 
     // 终止PortAudio
     Pa_Terminate();
+
+
+    // 音频存储
+    // 保存为WAV文件
+    saveToWav("input.wav", g_input_buffer);
+    saveToWav("output.wav", g_output_buffer);
     return 0;
 }

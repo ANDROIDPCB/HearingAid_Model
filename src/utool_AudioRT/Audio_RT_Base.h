@@ -7,5 +7,5 @@ void deque_copy_start_tar(std::deque<std::deque<__fp16> >& Time_Cache, int sourc
 void deque_move_up(std::deque<std::deque<__fp16> >& Time_Cache);
 std::vector<std::vector<__fp16>> deque_to_matrix(const std::deque<std::deque<__fp16>>& dq);
 void shift_matrix_up(std::vector<std::vector<__fp16>>& matrix, std::deque<std::deque<__fp16> >& Time_Cache);
-
+void saveToWav(const std::string& filename, const std::vector<float>& data);
 #endif

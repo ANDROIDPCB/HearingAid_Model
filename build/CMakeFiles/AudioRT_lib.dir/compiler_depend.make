@@ -190,8 +190,17 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
   /usr/include/c++/11/bits/vector.tcc \
   /usr/include/c++/11/cstring \
   /usr/include/string.h \
-  /usr/include/strings.h
+  /usr/include/strings.h \
+  /usr/include/c++/11/fstream \
+  /usr/include/c++/11/bits/codecvt.h \
+  /usr/include/aarch64-linux-gnu/c++/11/bits/basic_file.h \
+  /usr/include/aarch64-linux-gnu/c++/11/bits/c++io.h \
+  /usr/include/c++/11/bits/fstream.tcc
 
+
+/usr/include/c++/11/bits/fstream.tcc:
+
+/usr/include/c++/11/bits/codecvt.h:
 
 /usr/include/strings.h:
 
@@ -233,6 +242,8 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
 
 /usr/include/c++/11/bits/functional_hash.h:
 
+/usr/include/aarch64-linux-gnu/c++/11/bits/c++io.h:
+
 /usr/include/asm-generic/errno.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/error_t.h:
@@ -246,6 +257,8 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
 /usr/include/aarch64-linux-gnu/bits/wctype-wchar.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_FILE.h:
+
+/usr/include/aarch64-linux-gnu/c++/11/bits/basic_file.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/__fpos64_t.h:
 
@@ -566,6 +579,8 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
 /usr/include/c++/11/backward/binders.h:
 
 /usr/include/c++/11/bits/basic_string.h:
+
+/usr/include/c++/11/fstream:
 
 /usr/include/c++/11/bits/cxxabi_forced.h:
 

@@ -4,6 +4,9 @@
 #include "utool_AudioRT/Config.h"
 #include <vector>
 #include <cstring>  // 用于 memcpy
+#include <cstdint>
+#include <iostream>
+#include <fstream>
 
 // 音频实时播放的基础函数，列出音频设备
 void list_audio_devices() {
@@ -118,29 +121,43 @@ std::vector<std::vector<__fp16>> deque_to_matrix(const std::deque<std::deque<__f
     return matrix;
 }
 
-// std::vector<std::vector<__fp16>> deque_to_matrix(const std::deque<std::deque<__fp16>>& dq) {
-//     // 安全检查
-//     if (dq.empty()) return {};
-//     const size_t cols = dq[0].size();
+// 写入WAV文件（PCM 16-bit格式）
+void saveToWav(const std::string& filename, const std::vector<float>& data) {
+    std::ofstream file(filename, std::ios::binary);
     
-//     // 预分配二维矩阵内存
-//     std::vector<std::vector<__fp16>> matrix;
-//     matrix.reserve(dq.size());  // 预留行空间
+    // WAV头部（44字节）
+    const uint32_t sampleRate = 16000;
+    const uint16_t numChannels = 1;
+    const uint32_t dataSize = data.size() * sizeof(int16_t);
+    const uint32_t chunkSize = 36 + dataSize;
 
-//     for (const auto& dq_row : dq) {
-//         // 列数一致性校验
-//         if (dq_row.size() != cols) {
-//             throw std::runtime_error("输入数据列数不一致");
-//         }
+    // 写入WAV头
+    file.write("RIFF", 4);
+    file.write(reinterpret_cast<const char*>(&chunkSize), 4);
+    file.write("WAVEfmt ", 8);
+    
+    const uint32_t subchunk1Size = 16;
+    const uint16_t audioFormat = 1; // PCM
+    const uint16_t bitsPerSample = 16;
+    const uint32_t byteRate = sampleRate * numChannels * bitsPerSample / 8;
+    const uint16_t blockAlign = numChannels * bitsPerSample / 8;
 
-//         // 逐元素类型转换
-//         std::vector<__fp16> matrix_row;
-//         matrix_row.reserve(cols);
-//         for (float val : dq_row) {
-//             matrix_row.push_back(static_cast<__fp16>(val));
-//         }
-//         matrix.push_back(std::move(matrix_row));
-//     }
+    file.write(reinterpret_cast<const char*>(&subchunk1Size), 4);
+    file.write(reinterpret_cast<const char*>(&audioFormat), 2);
+    file.write(reinterpret_cast<const char*>(&numChannels), 2);
+    file.write(reinterpret_cast<const char*>(&sampleRate), 4);
+    file.write(reinterpret_cast<const char*>(&byteRate), 4);
+    file.write(reinterpret_cast<const char*>(&blockAlign), 2);
+    file.write(reinterpret_cast<const char*>(&bitsPerSample), 2);
+    
+    file.write("data", 4);
+    file.write(reinterpret_cast<const char*>(&dataSize), 4);
 
-//     return matrix;
-// }
+    // 写入PCM数据（float转16-bit整数）
+    for (const auto& sample : data) {
+        int16_t intSample = static_cast<int16_t>(sample * 32767.0f);
+        file.write(reinterpret_cast<const char*>(&intSample), sizeof(int16_t));
+    }
+
+    file.close();
+}

@@ -152,4 +152,8 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: \
  /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc /usr/include/c++/11/cstring \
- /usr/include/string.h /usr/include/strings.h
+ /usr/include/string.h /usr/include/strings.h /usr/include/c++/11/fstream \
+ /usr/include/c++/11/bits/codecvt.h \
+ /usr/include/aarch64-linux-gnu/c++/11/bits/basic_file.h \
+ /usr/include/aarch64-linux-gnu/c++/11/bits/c++io.h \
+ /usr/include/c++/11/bits/fstream.tcc
