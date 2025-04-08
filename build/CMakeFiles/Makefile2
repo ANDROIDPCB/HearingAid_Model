@@ -67,6 +67,7 @@ all: CMakeFiles/deepfir_process.dir/all
 all: CMakeFiles/rknn_engine.dir/all
 all: CMakeFiles/deepfir_lib.dir/all
 all: CMakeFiles/deepfir.dir/all
+all: CMakeFiles/AudioRT_FFT_Process_lib.dir/all
 all: CMakeFiles/AudioRT_Process_lib.dir/all
 all: CMakeFiles/AudioRT_lib.dir/all
 all: CMakeFiles/main_AudioRT.dir/all
@@ -81,6 +82,7 @@ clean: CMakeFiles/deepfir_process.dir/clean
 clean: CMakeFiles/rknn_engine.dir/clean
 clean: CMakeFiles/deepfir_lib.dir/clean
 clean: CMakeFiles/deepfir.dir/clean
+clean: CMakeFiles/AudioRT_FFT_Process_lib.dir/clean
 clean: CMakeFiles/AudioRT_Process_lib.dir/clean
 clean: CMakeFiles/AudioRT_lib.dir/clean
 clean: CMakeFiles/main_AudioRT.dir/clean
@@ -93,7 +95,7 @@ clean: CMakeFiles/main_AudioRT.dir/clean
 CMakeFiles/deepfir_process.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/deepfir_process.dir/build.make CMakeFiles/deepfir_process.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/deepfir_process.dir/build.make CMakeFiles/deepfir_process.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=9,10 "Built target deepfir_process"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=11,12 "Built target deepfir_process"
 .PHONY : CMakeFiles/deepfir_process.dir/all
 
 # Build rule for subdir invocation for target.
@@ -119,7 +121,7 @@ CMakeFiles/deepfir_process.dir/clean:
 CMakeFiles/rknn_engine.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rknn_engine.dir/build.make CMakeFiles/rknn_engine.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rknn_engine.dir/build.make CMakeFiles/rknn_engine.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=13,14 "Built target rknn_engine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=15,16 "Built target rknn_engine"
 .PHONY : CMakeFiles/rknn_engine.dir/all
 
 # Build rule for subdir invocation for target.
@@ -146,7 +148,7 @@ CMakeFiles/deepfir_lib.dir/all: CMakeFiles/deepfir_process.dir/all
 CMakeFiles/deepfir_lib.dir/all: CMakeFiles/rknn_engine.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/deepfir_lib.dir/build.make CMakeFiles/deepfir_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/deepfir_lib.dir/build.make CMakeFiles/deepfir_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=7,8 "Built target deepfir_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=9,10 "Built target deepfir_lib"
 .PHONY : CMakeFiles/deepfir_lib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -174,7 +176,7 @@ CMakeFiles/deepfir.dir/all: CMakeFiles/rknn_engine.dir/all
 CMakeFiles/deepfir.dir/all: CMakeFiles/deepfir_lib.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/deepfir.dir/build.make CMakeFiles/deepfir.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/deepfir.dir/build.make CMakeFiles/deepfir.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=5,6 "Built target deepfir"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=7,8 "Built target deepfir"
 .PHONY : CMakeFiles/deepfir.dir/all
 
 # Build rule for subdir invocation for target.
@@ -194,13 +196,39 @@ CMakeFiles/deepfir.dir/clean:
 .PHONY : CMakeFiles/deepfir.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/AudioRT_FFT_Process_lib.dir
+
+# All Build rule for target.
+CMakeFiles/AudioRT_FFT_Process_lib.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_FFT_Process_lib.dir/build.make CMakeFiles/AudioRT_FFT_Process_lib.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_FFT_Process_lib.dir/build.make CMakeFiles/AudioRT_FFT_Process_lib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=1,2 "Built target AudioRT_FFT_Process_lib"
+.PHONY : CMakeFiles/AudioRT_FFT_Process_lib.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/AudioRT_FFT_Process_lib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/orangepi/HearingAid_Model/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/AudioRT_FFT_Process_lib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/orangepi/HearingAid_Model/build/CMakeFiles 0
+.PHONY : CMakeFiles/AudioRT_FFT_Process_lib.dir/rule
+
+# Convenience name for target.
+AudioRT_FFT_Process_lib: CMakeFiles/AudioRT_FFT_Process_lib.dir/rule
+.PHONY : AudioRT_FFT_Process_lib
+
+# clean rule for target.
+CMakeFiles/AudioRT_FFT_Process_lib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_FFT_Process_lib.dir/build.make CMakeFiles/AudioRT_FFT_Process_lib.dir/clean
+.PHONY : CMakeFiles/AudioRT_FFT_Process_lib.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/AudioRT_Process_lib.dir
 
 # All Build rule for target.
 CMakeFiles/AudioRT_Process_lib.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_Process_lib.dir/build.make CMakeFiles/AudioRT_Process_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_Process_lib.dir/build.make CMakeFiles/AudioRT_Process_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=1,2 "Built target AudioRT_Process_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=3,4 "Built target AudioRT_Process_lib"
 .PHONY : CMakeFiles/AudioRT_Process_lib.dir/all
 
 # Build rule for subdir invocation for target.
@@ -223,15 +251,16 @@ CMakeFiles/AudioRT_Process_lib.dir/clean:
 # Target rules for target CMakeFiles/AudioRT_lib.dir
 
 # All Build rule for target.
+CMakeFiles/AudioRT_lib.dir/all: CMakeFiles/AudioRT_FFT_Process_lib.dir/all
 CMakeFiles/AudioRT_lib.dir/all: CMakeFiles/AudioRT_Process_lib.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_lib.dir/build.make CMakeFiles/AudioRT_lib.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_lib.dir/build.make CMakeFiles/AudioRT_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=3,4 "Built target AudioRT_lib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=5,6 "Built target AudioRT_lib"
 .PHONY : CMakeFiles/AudioRT_lib.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/AudioRT_lib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/orangepi/HearingAid_Model/build/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/orangepi/HearingAid_Model/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/AudioRT_lib.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/orangepi/HearingAid_Model/build/CMakeFiles 0
 .PHONY : CMakeFiles/AudioRT_lib.dir/rule
@@ -249,16 +278,17 @@ CMakeFiles/AudioRT_lib.dir/clean:
 # Target rules for target CMakeFiles/main_AudioRT.dir
 
 # All Build rule for target.
+CMakeFiles/main_AudioRT.dir/all: CMakeFiles/AudioRT_FFT_Process_lib.dir/all
 CMakeFiles/main_AudioRT.dir/all: CMakeFiles/AudioRT_Process_lib.dir/all
 CMakeFiles/main_AudioRT.dir/all: CMakeFiles/AudioRT_lib.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_AudioRT.dir/build.make CMakeFiles/main_AudioRT.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main_AudioRT.dir/build.make CMakeFiles/main_AudioRT.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=11,12 "Built target main_AudioRT"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=13,14 "Built target main_AudioRT"
 .PHONY : CMakeFiles/main_AudioRT.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/main_AudioRT.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/orangepi/HearingAid_Model/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/orangepi/HearingAid_Model/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/main_AudioRT.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/orangepi/HearingAid_Model/build/CMakeFiles 0
 .PHONY : CMakeFiles/main_AudioRT.dir/rule

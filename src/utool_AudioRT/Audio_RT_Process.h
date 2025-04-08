@@ -4,6 +4,7 @@
 #include <vector>
 #include <cmath>
 
+
 std::vector<__fp16> asymmetric_Analy_windows(int hop_length, int win_length, int zero_d);
 std::vector<__fp16> asymmetric_Sys_windows(int hop_length, int win_length, int zero_d);
 std::vector<std::vector<__fp16>> apply_window_multiply(

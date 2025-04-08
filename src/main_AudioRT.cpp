@@ -7,7 +7,9 @@
 #include <algorithm>
 #include "utool_AudioRT/Audio_RT_Process.h"
 #include <fstream>
-
+#include "utool_AudioRT/Audio_RT_FFT.h"
+#include <string.h>
+#include <chrono> // 记录回调函数运行时间
 
 // 定义时间缓存队列
 std::deque<std::deque<__fp16>> Time_Cache(
@@ -19,6 +21,11 @@ std::vector<std::vector<__fp16>> Time_Cache_Matrix; // 进行数组操作的原�
 std::vector<__fp16> Anly_Windows; // 分析窗口
 std::vector<__fp16> Sys_Windows; // 分析窗口
 std::vector<__fp16> result_AddSys; // 最后处理两帧叠加综合窗的结果
+std::vector<std::vector<__fp16>> mag, phase; // 幅度谱和相位谱结果
+// 创建处理器
+FFTProcessor RTFFT_processor;
+// 逆向变换
+std::vector<std::vector<__fp16>> reconstructed_Time;
 
 // 测试变量，把音频的输入输出存储下来
 // 全局变量存储输入和输出的音频数据（16kHz * 20s = 320000 samples）
@@ -42,6 +49,20 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
     const PaStreamCallbackTimeInfo* timeInfo,
     PaStreamCallbackFlags statusFlags,
     void *userData) {
+    
+    // 记录运行时间
+    // struct timespec start, end;
+    // clock_gettime(CLOCK_MONOTONIC, &start);
+
+    // if (statusFlags & paInputOverflow) {
+    //     std::cerr << "输入缓冲区溢出!" << std::endl;
+    //     memset((audio_sample*)inputBuffer, 0, sampleNum * sizeof(float) * 2);
+    // }
+    // if (statusFlags & paOutputUnderflow) {
+    //     std::cerr << "输出缓冲区欠载!" << std::endl;
+    //     memset((audio_sample*)inputBuffer, 0, sampleNum * sizeof(float) * 2);
+    // }
+
     // 将输入缓冲区转换为浮点型指针
     audio_sample* input = (audio_sample*)inputBuffer;
     audio_sample* output = (audio_sample*)outputBuffer;
@@ -64,10 +85,10 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
                 //删除开头的点  
                 Time_Cache[index_num].pop_front();
                 //新的样本点推入末尾
-                Time_Cache[index_num].push_back(static_cast<__fp16>(input[i].left * 100));
+                Time_Cache[index_num].push_back(static_cast<__fp16>(input[i].left));
             }
             else{
-                Time_Cache[index_num][192 + i] = input[i].left*100;
+                Time_Cache[index_num][192 + i] = input[i].left;
             }
         }
     }
@@ -77,19 +98,27 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
         // 在这里面进行音频的算法流处理
         // 1.先复制上面的二维队列到数组中以方便操作
         if(matrix_copy_flage == 0){ // 还没复制队列数据，要开始复制队列数据
-            
             Time_Cache_Matrix = deque_to_matrix(Time_Cache);
             matrix_copy_flage = 1;
             // 添加窗函数，每一帧都添加分析窗函数
             Time_Cache_Matrix = apply_window_multiply(Time_Cache_Matrix,Anly_Windows);
+            // 把添加了窗函数的时域信号直接进行FFT，然后返回幅度谱和相位谱
+            RTFFT_processor.compute_spectrum(Time_Cache_Matrix, mag, phase); 
+            RTFFT_processor.reconstruct_signal(mag, phase, reconstructed_Time);
         }
         else{ 
             shift_matrix_up(Time_Cache_Matrix,Time_Cache); // 把数组整体上移一位，并且把队列的最后一行数据放到数组最后一行中
             // 添加合成窗函数(只对最后一行)
             multiply_last_n_rows_inplace(Time_Cache_Matrix,Sys_Windows,1);
+            // mag和phase向上移动一行，并且把加窗了的时域进行FFT后分别补充到mag和phase
+            shift_matrix_MAG_PHASE_up(Time_Cache_Matrix, mag, phase, RTFFT_processor);
+            // 把mag和phase结合，只对最后两行进行IFFT
+            RTFFT_processor.reconstruct_signal_Only(mag, phase, reconstructed_Time);
         }
+        // 把幅度谱送入模型中看看效果
+        
         // 最后两行乘上综合窗并进行叠加还原
-        result_AddSys = Generate_SysResult(Time_Cache_Matrix,Sys_Windows,2);
+        result_AddSys = Generate_SysResult(reconstructed_Time,Sys_Windows,2);
 
 
         // 将数据写入输出缓冲区
@@ -110,6 +139,11 @@ static int audioCallback(const void *inputBuffer, void *outputBuffer,
         }
     }
 
+    // 打印运行时间
+    // clock_gettime(CLOCK_MONOTONIC, &end);
+    // long duration = (end.tv_sec - start.tv_sec) * 1000000 + (end.tv_nsec - start.tv_nsec) / 1000;
+    // printf("Callback took %ld microseconds\n", duration);
+
     return paContinue;  // 持续运行
 }
 
@@ -125,7 +159,7 @@ int main(int argc, char **argv)
     Anly_Windows = asymmetric_Analy_windows(HOP_SIZE,WINDOW_SIZE,10);
     // 生成综合窗(IFFT输出的时域结果加窗)
     Sys_Windows = asymmetric_Sys_windows(HOP_SIZE,WINDOW_SIZE,10);
-
+    
 
     // 初始化PortAudio
     err = Pa_Initialize();
@@ -185,15 +219,15 @@ int main(int argc, char **argv)
     std::cout << "开始录音并播放...按 Ctrl+C 可以停止" << std::endl;
 
     // 循环等待用户中断
-    try {
-        while (true) {
-            Pa_Sleep(1000);
-        }
-    } catch (const std::exception& e) {
-        std::cout << "停止录音并播放" << std::endl;
-    }
+    // try {
+    //     while (true) {
+    //         Pa_Sleep(1000);
+    //     }
+    // } catch (const std::exception& e) {
+    //     std::cout << "停止录音并播放" << std::endl;
+    // }
 
-    // Pa_Sleep(20000);
+    Pa_Sleep(20000);
 
     // 停止和关闭流
     err = Pa_StopStream(stream);

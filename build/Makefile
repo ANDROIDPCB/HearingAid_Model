@@ -169,6 +169,19 @@ deepfir/fast:
 .PHONY : deepfir/fast
 
 #=============================================================================
+# Target rules for targets named AudioRT_FFT_Process_lib
+
+# Build rule for target.
+AudioRT_FFT_Process_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 AudioRT_FFT_Process_lib
+.PHONY : AudioRT_FFT_Process_lib
+
+# fast build rule for target.
+AudioRT_FFT_Process_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_FFT_Process_lib.dir/build.make CMakeFiles/AudioRT_FFT_Process_lib.dir/build
+.PHONY : AudioRT_FFT_Process_lib/fast
+
+#=============================================================================
 # Target rules for targets named AudioRT_Process_lib
 
 # Build rule for target.
@@ -351,6 +364,30 @@ src/utool_AudioRT/Audio_RT_Base.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_lib.dir/build.make CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.s
 .PHONY : src/utool_AudioRT/Audio_RT_Base.cpp.s
 
+src/utool_AudioRT/Audio_RT_FFT.o: src/utool_AudioRT/Audio_RT_FFT.cpp.o
+.PHONY : src/utool_AudioRT/Audio_RT_FFT.o
+
+# target to build an object file
+src/utool_AudioRT/Audio_RT_FFT.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_FFT_Process_lib.dir/build.make CMakeFiles/AudioRT_FFT_Process_lib.dir/src/utool_AudioRT/Audio_RT_FFT.cpp.o
+.PHONY : src/utool_AudioRT/Audio_RT_FFT.cpp.o
+
+src/utool_AudioRT/Audio_RT_FFT.i: src/utool_AudioRT/Audio_RT_FFT.cpp.i
+.PHONY : src/utool_AudioRT/Audio_RT_FFT.i
+
+# target to preprocess a source file
+src/utool_AudioRT/Audio_RT_FFT.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_FFT_Process_lib.dir/build.make CMakeFiles/AudioRT_FFT_Process_lib.dir/src/utool_AudioRT/Audio_RT_FFT.cpp.i
+.PHONY : src/utool_AudioRT/Audio_RT_FFT.cpp.i
+
+src/utool_AudioRT/Audio_RT_FFT.s: src/utool_AudioRT/Audio_RT_FFT.cpp.s
+.PHONY : src/utool_AudioRT/Audio_RT_FFT.s
+
+# target to generate assembly for a file
+src/utool_AudioRT/Audio_RT_FFT.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/AudioRT_FFT_Process_lib.dir/build.make CMakeFiles/AudioRT_FFT_Process_lib.dir/src/utool_AudioRT/Audio_RT_FFT.cpp.s
+.PHONY : src/utool_AudioRT/Audio_RT_FFT.cpp.s
+
 src/utool_AudioRT/Audio_RT_Process.o: src/utool_AudioRT/Audio_RT_Process.cpp.o
 .PHONY : src/utool_AudioRT/Audio_RT_Process.o
 
@@ -383,6 +420,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... AudioRT_FFT_Process_lib"
 	@echo "... AudioRT_Process_lib"
 	@echo "... AudioRT_lib"
 	@echo "... deepfir"
@@ -408,6 +446,9 @@ help:
 	@echo "... src/utool_AudioRT/Audio_RT_Base.o"
 	@echo "... src/utool_AudioRT/Audio_RT_Base.i"
 	@echo "... src/utool_AudioRT/Audio_RT_Base.s"
+	@echo "... src/utool_AudioRT/Audio_RT_FFT.o"
+	@echo "... src/utool_AudioRT/Audio_RT_FFT.i"
+	@echo "... src/utool_AudioRT/Audio_RT_FFT.s"
 	@echo "... src/utool_AudioRT/Audio_RT_Process.o"
 	@echo "... src/utool_AudioRT/Audio_RT_Process.i"
 	@echo "... src/utool_AudioRT/Audio_RT_Process.s"

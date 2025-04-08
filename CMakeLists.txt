@@ -26,6 +26,8 @@ find_package(PkgConfig REQUIRED)
 find_package(OpenCV REQUIRED)
 # 查找PortAudio库--用于音频实时播放
 pkg_check_modules(PORTAUDIO REQUIRED IMPORTED_TARGET portaudio-2.0)
+# 查找FFTW3单精度库
+pkg_check_modules(FFTW3 REQUIRED IMPORTED_TARGET fftw3f)
 # 输出OpenCV信息
 message(STATUS "include path: ${OpenCV_INCLUDE_DIRS}")
 
@@ -35,6 +37,7 @@ find_library(KISSFFT_LIB NAMES kissfft-float)  # 查找kissfft库
 if(NOT KISSFFT_LIB)
     message(FATAL_ERROR "kissfft library not found")
 endif()
+
 
 
 # 用来搜索头文件的目录
@@ -84,12 +87,17 @@ target_link_libraries(deepfir
 
 
 # 实时音频输入输出工程
+add_library(AudioRT_FFT_Process_lib SHARED src/utool_AudioRT/Audio_RT_FFT.cpp) # 添加动态库
+target_link_libraries(AudioRT_FFT_Process_lib
+    PkgConfig::FFTW3  # 单精度版本
+)
 add_library(AudioRT_Process_lib SHARED src/utool_AudioRT/Audio_RT_Process.cpp) # 添加动态库
 add_library(AudioRT_lib SHARED src/utool_AudioRT/Audio_RT_Base.cpp) # 添加动态库
 # 链接库
 target_link_libraries(AudioRT_lib
     PkgConfig::PORTAUDIO  # PortAudio库
     AudioRT_Process_lib
+    AudioRT_FFT_Process_lib
 )
 
 add_executable(main_AudioRT src/main_AudioRT.cpp)

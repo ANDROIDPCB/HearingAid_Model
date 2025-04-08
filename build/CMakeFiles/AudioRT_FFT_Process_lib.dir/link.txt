@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libAudioRT_FFT_Process_lib.so -o libAudioRT_FFT_Process_lib.so CMakeFiles/AudioRT_FFT_Process_lib.dir/src/utool_AudioRT/Audio_RT_FFT.cpp.o  /usr/lib/aarch64-linux-gnu/libfftw3f.so 

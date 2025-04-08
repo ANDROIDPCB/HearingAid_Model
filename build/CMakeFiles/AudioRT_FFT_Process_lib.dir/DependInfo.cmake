@@ -8,13 +8,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/orangepi/HearingAid_Model/src/utool_AudioRT/Audio_RT_Base.cpp" "CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o" "gcc" "CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o.d"
+  "/home/orangepi/HearingAid_Model/src/utool_AudioRT/Audio_RT_FFT.cpp" "CMakeFiles/AudioRT_FFT_Process_lib.dir/src/utool_AudioRT/Audio_RT_FFT.cpp.o" "gcc" "CMakeFiles/AudioRT_FFT_Process_lib.dir/src/utool_AudioRT/Audio_RT_FFT.cpp.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/orangepi/HearingAid_Model/build/CMakeFiles/AudioRT_Process_lib.dir/DependInfo.cmake"
-  "/home/orangepi/HearingAid_Model/build/CMakeFiles/AudioRT_FFT_Process_lib.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

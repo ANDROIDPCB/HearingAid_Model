@@ -93,10 +93,12 @@ AudioRT_lib_EXTERNAL_OBJECTS =
 libAudioRT_lib.so: CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o
 libAudioRT_lib.so: CMakeFiles/AudioRT_lib.dir/build.make
 libAudioRT_lib.so: libAudioRT_Process_lib.so
+libAudioRT_lib.so: libAudioRT_FFT_Process_lib.so
 libAudioRT_lib.so: /usr/lib/aarch64-linux-gnu/libportaudio.so
 libAudioRT_lib.so: /usr/lib/aarch64-linux-gnu/libasound.so
 libAudioRT_lib.so: /usr/lib/aarch64-linux-gnu/libm.so
 libAudioRT_lib.so: /usr/lib/aarch64-linux-gnu/libpthread.a
+libAudioRT_lib.so: /usr/lib/aarch64-linux-gnu/libfftw3f.so
 libAudioRT_lib.so: CMakeFiles/AudioRT_lib.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/orangepi/HearingAid_Model/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libAudioRT_lib.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/AudioRT_lib.dir/link.txt --verbose=$(VERBOSE)

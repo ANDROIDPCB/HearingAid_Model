@@ -195,8 +195,35 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
   /usr/include/c++/11/bits/codecvt.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/basic_file.h \
   /usr/include/aarch64-linux-gnu/c++/11/bits/c++io.h \
-  /usr/include/c++/11/bits/fstream.tcc
+  /usr/include/c++/11/bits/fstream.tcc \
+  ../src/utool_AudioRT/Audio_RT_FFT.h \
+  /usr/include/fftw3.h \
+  /usr/include/c++/11/cmath \
+  /usr/include/math.h \
+  /usr/include/aarch64-linux-gnu/bits/math-vector.h \
+  /usr/include/aarch64-linux-gnu/bits/libm-simd-decl-stubs.h \
+  /usr/include/aarch64-linux-gnu/bits/flt-eval-method.h \
+  /usr/include/aarch64-linux-gnu/bits/fp-logb.h \
+  /usr/include/aarch64-linux-gnu/bits/fp-fast.h \
+  /usr/include/aarch64-linux-gnu/bits/mathcalls-helper-functions.h \
+  /usr/include/aarch64-linux-gnu/bits/mathcalls.h \
+  /usr/include/aarch64-linux-gnu/bits/mathcalls-narrow.h \
+  /usr/include/aarch64-linux-gnu/bits/iscanonical.h
 
+
+/usr/include/aarch64-linux-gnu/bits/mathcalls-narrow.h:
+
+/usr/include/aarch64-linux-gnu/bits/fp-fast.h:
+
+/usr/include/aarch64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/include/math.h:
+
+/usr/include/c++/11/cmath:
+
+/usr/include/fftw3.h:
+
+../src/utool_AudioRT/Audio_RT_FFT.h:
 
 /usr/include/c++/11/bits/fstream.tcc:
 
@@ -312,6 +339,8 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
 
 /usr/include/c++/11/bits/nested_exception.h:
 
+/usr/include/aarch64-linux-gnu/bits/iscanonical.h:
+
 /usr/include/aarch64-linux-gnu/bits/types/struct_tm.h:
 
 /usr/include/c++/11/type_traits:
@@ -387,6 +416,8 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
 /usr/include/aarch64-linux-gnu/bits/wordsize.h:
 
 /usr/include/portaudio.h:
+
+/usr/include/aarch64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_timespec.h:
 
@@ -476,6 +507,8 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
 
 /usr/include/aarch64-linux-gnu/bits/thread-shared-types.h:
 
+/usr/include/aarch64-linux-gnu/bits/fp-logb.h:
+
 /usr/include/c++/11/bits/predefined_ops.h:
 
 /usr/include/c++/11/cstdint:
@@ -527,6 +560,8 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
 /usr/include/c++/11/debug/debug.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h:
+
+/usr/include/aarch64-linux-gnu/bits/mathcalls-helper-functions.h:
 
 /usr/include/aarch64-linux-gnu/c++/11/bits/c++allocator.h:
 
@@ -585,5 +620,9 @@ CMakeFiles/AudioRT_lib.dir/src/utool_AudioRT/Audio_RT_Base.cpp.o: ../src/utool_A
 /usr/include/c++/11/bits/cxxabi_forced.h:
 
 /usr/include/c++/11/ext/alloc_traits.h:
+
+/usr/include/aarch64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/aarch64-linux-gnu/bits/math-vector.h:
 
 /usr/include/c++/11/bits/alloc_traits.h:
