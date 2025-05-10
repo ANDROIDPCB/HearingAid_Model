@@ -26,6 +26,13 @@ find_package(OpenCV REQUIRED)
 # 输出OpenCV信息
 message(STATUS "include path: ${OpenCV_INCLUDE_DIRS}")
 
+# 查找依赖库 读音频和进行fft的库
+find_library(KISSFFT_LIB NAMES kissfft-float)  # 查找kissfft库
+# 验证库是否找到
+if(NOT KISSFFT_LIB)
+    message(FATAL_ERROR "kissfft library not found")
+endif()
+
 
 # 用来搜索头文件的目录
 include_directories(
@@ -33,56 +40,41 @@ include_directories(
     ${RKNN_API_INCLUDE_PATH}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${RGA_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/include  # 你的头文件目录
+    ${KISSFFT_INCLUDE_DIRS}              # 如果kissfft需要特殊包含路径
 )
 
-# 构建预处理和后处理库
-add_library(nn_process SHARED
-            src/process/preprocess.cpp
-            src/process/postprocess.cpp
-)
+
+# 构建DEEPFIR的预处理库
+# deepfir_lib
+add_library(deepfir_process SHARED src/process/preprocess_deepfir.cpp)
 # 链接库
-target_link_libraries(nn_process
+target_link_libraries(deepfir_process
+    sndfile      # libsndfile的CMake目标
     ${OpenCV_LIBS}
+    ${KISSFFT_LIB}        # kissfft库
+    m                     # 数学库
 )
 
 # 构建自定义封装API库
-add_library(rknn_engine SHARED src/engine/rknn_engine.cpp) 
+add_library(rknn_engine SHARED src/engine/rknn_engine.cpp)
 # 链接库
 target_link_libraries(rknn_engine
     ${RKNN_API_LIB_PATH}
 )
-# yolov5_lib
-add_library(yolov5_lib SHARED src/task/yolov5.cpp)
+
+# deepfir_lib
+add_library(deepfir_lib SHARED src/task/deepfir.cpp)
 # 链接库
-target_link_libraries(yolov5_lib
+target_link_libraries(deepfir_lib
     rknn_engine
-    nn_process
+    deepfir_process
 )
 
-# draw_lib
-add_library(draw_lib SHARED src/draw/cv_draw.cpp)
+
+# 测试deepfir
+add_executable(deepfir src/DeepFIR_test.cpp)
 # 链接库
-target_link_libraries(draw_lib
-    ${OpenCV_LIBS}
+target_link_libraries(deepfir
+        deepfir_lib
 )
-
-# 测试自yolov5
-add_executable(yolov5_test src/yolov5_test.cpp)
-
-# 链接库
-target_link_libraries(yolov5_test
-        draw_lib
-        yolov5_lib
-)
-
-# 测试yolov5_video
-add_executable(yolov5_video src/yolov5_video.cpp)
-
-# 链接库
-target_link_libraries(yolov5_video
-        draw_lib
-        yolov5_lib
-)
-
-# 测试代码
-add_executable(Test src/Test.cpp)

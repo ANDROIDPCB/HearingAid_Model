@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -g -shared -Wl,-soname,librknn_engine.so -o librknn_engine.so CMakeFiles/rknn_engine.dir/src/engine/rknn_engine.cpp.o  -Wl,-rpath,/home/orangepi/HearingAid_Model/librknn_api/aarch64 ../librknn_api/aarch64/librknnrt.so 

@@ -153,7 +153,7 @@ nn_error_e RKEngine::Run(std::vector<tensor_data_s> &inputs, std::vector<tensor_
         NN_LOG_ERROR("rknn_run fail! ret=%d", ret);
         return NN_RKNN_RUNTIME_ERROR;
     }
-
+    
     // 获得输出
     rknn_output rknn_outputs[g_max_io_num];
     memset(rknn_outputs, 0, sizeof(rknn_outputs));

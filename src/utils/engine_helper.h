@@ -91,6 +91,8 @@ static rknn_tensor_type rknn_type_convert(tensor_datatype_e type)
         return RKNN_TENSOR_UINT8;
     case NN_TENSOR_FLOAT:
         return RKNN_TENSOR_FLOAT32;
+    case NN_TENSOR_FLOAT16:
+        return RKNN_TENSOR_FLOAT16;
     default:
         NN_LOG_ERROR("unsupported nn type: %d\n", type);
         // exit program
